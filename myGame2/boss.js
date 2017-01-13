@@ -27,11 +27,21 @@ game_state.boss.prototype = {
     },
     
     create: function(){
+        life = 3;
+        
         this.background = game.add.sprite(0, 0, 'background');
         
-        this.line = game.add.sprite();
-        
         this.earth = game.add.sprite(100, 565, 'earth');
+        
+        this.line = game.add.sprite(0, 865, 'line');
+        game.physics.arcade.enable(this.line);
+        this.line.enableBody = true;
+        this.line.immovable = true;
+        
+        this.line2 = game.add.sprite(0, -200, 'line');
+        game.physics.arcade.enable(this.line2);
+        this.line2.enableBody = true;
+        this.line2.immovable = true;
         
         this.explosion = game.add.group();
         
@@ -53,6 +63,8 @@ game_state.boss.prototype = {
         game.physics.arcade.enable(this.alien);
         this.alien.enableBody = true;
         this.alien.immovable = true;
+        
+        this.life = game.add.text(100, 100, "", { fontSize: "20px Arial", fill: "#ff0000"});
 
         this.heart1 = game.add.sprite(1110, 0, 'heart1');
         this.heart2 = game.add.sprite(1190, 0, 'heart2');
@@ -91,10 +103,12 @@ game_state.boss.prototype = {
                 var nuke = _this.nuke.create(_this.alien.body.x + 26, _this.alien.body.y + 159, 'nuke');
                 nuke.body.velocity.y = 200;
             }
-        }, 3750);
+        }, 7875);
     },
     
     update: function(){
+        
+        this.life.text = life;
         
         if (this.space.isDown && laserShot == true) {
             var laser = this.lasers.create(this.starship.x + 41, this.starship.y - 50, 'laser');
@@ -111,6 +125,10 @@ game_state.boss.prototype = {
         
         game.physics.arcade.overlap(this.lasers, this.alien, this.bam, null, this);
         game.physics.arcade.overlap(this.lasers2, this.starship, this.blam, null, this);
+        game.physics.arcade.overlap(this.nuke, this.starship, this.boom, null, this);
+        game.physics.arcade.overlap(this.nuke, this.line, this.die, null, this);
+        game.physics.arcade.overlap(this.lasers2, this.line,this.die3, null, this);
+        game.physics.arcade.overlap(this.lasers, this.line2, this.die2, null, this);
         
         if (this.alien.x < 1)
         {
@@ -127,12 +145,7 @@ game_state.boss.prototype = {
         if (this.starship.x > 1449 && this.starship.x < 2000) {
             this.starship.x = -100;
         }
-
-        if (life < 1) {
-            this.starship.kill();
-            laserShot = false;
-        }
-        if (life < 3 && life > 1) {
+        if (life < 3 ) {
             this.heart1.kill();
         }
         if (life < 2) {
@@ -140,6 +153,8 @@ game_state.boss.prototype = {
         }
         if (life < 1) {
             this.heart3.kill();
+            this.starship.kill();
+            laserShot = false;
             var explosion = this.explosion.create(this.starship.x - 50, this.starship.y - 50, 'explosion');
             setTimeout(function()
             {
@@ -204,8 +219,25 @@ blam: function(laser2, starship)
 {
     starship.kill();
     life--;
+},
+boom: function(nuke, starship)
+{
+    life = 0;
+    starship.kill();
+},
+die: function(nuke, line)
+{
+    line.kill();
+},
+die2: function(laser, line2)
+{
+    line2.kill();
+},
+die3: function(laser2, line)
+{
+    line.kill();
 }
 };
 
 game.state.add('boss', game_state.boss);
-game.state.start('boss');
+// game.state.start('boss');

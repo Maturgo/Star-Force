@@ -60,7 +60,12 @@ game_state.main.prototype = {
         this.line = game.add.sprite(0, 865, 'line');
         game.physics.arcade.enable(this.line);
         this.line.enableBody = true;
-        this.line.body.immovable = true;
+        this.line.immovable = true;
+        
+        this.line2 = game.add.sprite(0, -200, 'line');
+        game.physics.arcade.enable(this.line2);
+        this.line2.enableBody = true;
+        this.line2.immovable = true;
 
         this.starship = game.add.sprite(675, 600, 'starship');
         game.physics.arcade.enable(this.starship);
@@ -83,6 +88,7 @@ game_state.main.prototype = {
         this.healthText = game.add.text(1110, 40, "Earth Health:", { fontSize: "20px Arial", fill: "#ff0000"});
         this.healthText2 = game.add.text(100, 100, "health", { fontSize: "20px Arial", fill: "#ff0000"});
         this.level = game.add.text(1110, 175, "Level:", { fontSize: "20px Arial", fill: "#ff0000"});
+        this.life = game.add.text(100, 125, "", { fontSize: "20px Arial", fill: "#ff0000"});
 
         this.lasers = game.add.group();
         this.lasers.enableBody = true;
@@ -108,6 +114,7 @@ game_state.main.prototype = {
         this.scoreText2.text = "Stars Needed: " + levelScore;
         this.healthText2.text = health;
         this.level.text = "Level: " + level;
+        this.life.text = life;
         if (this.space.isDown && laserShot == true) {
             var laser = this.lasers.create(this.starship.x + 41, this.starship.y - 50, 'laser');
             laser.body.velocity.y = -300;
@@ -121,6 +128,7 @@ game_state.main.prototype = {
         else this.starship.body.velocity.x = 0;
         game.physics.arcade.overlap(this.starship, this.asteroids, this.hitObject, null, this);
         game.physics.arcade.overlap(this.asteroids, this.line, this.die, null, this);
+        game.physics.arcade.overlap(this.lasers, this.line2, this.die2, null, this);
         game.physics.arcade.overlap(this.lasers, this.asteroids, this.hitAsteroid, null, this);
         game.physics.arcade.overlap(this.starship, this.stars, this.collectStar, null, this);
         
@@ -131,13 +139,7 @@ game_state.main.prototype = {
         if (this.starship.x > 1449 && this.starship.x < 2000) {
             this.starship.x = -100;
         }
-
-        if (life < 1) {
-            this.starship.kill();
-            laserShot = false;
-        }
-
-        if (life < 3 && life > 1) {
+        if (life < 3) {
             this.heart1.kill();
         }
         if (life < 2) {
@@ -145,6 +147,8 @@ game_state.main.prototype = {
         }
         if (life < 1) {
             this.heart3.kill();
+            this.starship.kill();
+            laserShot = false;
             var explosion = this.explosion.create(this.starship.x - 50, this.starship.y - 50, 'explosion');
             setTimeout(function()
             {
@@ -180,7 +184,7 @@ game_state.main.prototype = {
             speed += 3;
         }
         
-        if (level == 6)
+        if (level == 2)
         {
             game.state.start('boss');
         }
@@ -206,6 +210,10 @@ game_state.main.prototype = {
     die: function(asteroid, line) {
         line.kill();
         health--;
+    },
+    
+    die2: function(lasers, line2) {
+        line2.kill();
     }
 
 };

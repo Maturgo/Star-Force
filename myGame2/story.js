@@ -73,7 +73,7 @@ game_state.story.prototype = {
     update: function(){
         if (fly > 0 && fly < 2) this.ship.body.velocity.y = -300;
     }
-                                                                        
+                                                                               
 };
 game.state.add('story', game_state.story);
-// game.state.start('story');
+game.state.start('story');                           
