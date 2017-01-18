@@ -76,4 +76,4 @@ game_state.story.prototype = {
                                                                                
 };
 game.state.add('story', game_state.story);
-game.state.start('story');                           
+game.state.start('story');

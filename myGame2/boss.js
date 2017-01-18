@@ -64,7 +64,7 @@ game_state.boss.prototype = {
         this.alien.enableBody = true;
         this.alien.immovable = true;
         
-        this.life = game.add.text(100, 100, "", { fontSize: "20px Arial", fill: "#ff0000"});
+        // this.life = game.add.text(100, 100, "", { fontSize: "20px Arial", fill: "#ff0000"});
 
         this.heart1 = game.add.sprite(1110, 0, 'heart1');
         this.heart2 = game.add.sprite(1190, 0, 'heart2');
@@ -108,7 +108,7 @@ game_state.boss.prototype = {
     
     update: function(){
         
-        this.life.text = life;
+        // this.life.text = life;
         
         if (this.space.isDown && laserShot == true) {
             var laser = this.lasers.create(this.starship.x + 41, this.starship.y - 50, 'laser');
@@ -205,6 +205,10 @@ game_state.boss.prototype = {
             this.alien.kill();
             var explosion2 = this.explosion.create(this.alien.x - 50, this.alien.y, 'explosion');
             laserShot2 = false;
+            setTimeout(function()
+            {
+                game.state.start('win'); 
+            }, 2000);
         }
         
         

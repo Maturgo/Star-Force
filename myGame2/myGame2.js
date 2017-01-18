@@ -86,9 +86,9 @@ game_state.main.prototype = {
         this.scoreText = game.add.text(1110, 125, "Stars: " + score, {fontSize: "20px Arial", fill: "#ff0000"});
         this.scoreText2 = game.add.text(1110, 150, "Stars Needed: " + levelScore, { fontSize: "20px Arial", fill: "#ff0000"});
         this.healthText = game.add.text(1110, 40, "Earth Health:", { fontSize: "20px Arial", fill: "#ff0000"});
-        this.healthText2 = game.add.text(100, 100, "health", { fontSize: "20px Arial", fill: "#ff0000"});
+        // this.healthText2 = game.add.text(100, 100, "health", { fontSize: "20px Arial", fill: "#ff0000"});
         this.level = game.add.text(1110, 175, "Level:", { fontSize: "20px Arial", fill: "#ff0000"});
-        this.life = game.add.text(100, 125, "", { fontSize: "20px Arial", fill: "#ff0000"});
+        // this.life = game.add.text(100, 125, "", { fontSize: "20px Arial", fill: "#ff0000"});
 
         this.lasers = game.add.group();
         this.lasers.enableBody = true;
@@ -112,9 +112,9 @@ game_state.main.prototype = {
         
         this.scoreText.text = "Stars: " + score;
         this.scoreText2.text = "Stars Needed: " + levelScore;
-        this.healthText2.text = health;
+        // this.healthText2.text = health;
         this.level.text = "Level: " + level;
-        this.life.text = life;
+        // this.life.text = life;
         if (this.space.isDown && laserShot == true) {
             var laser = this.lasers.create(this.starship.x + 41, this.starship.y - 50, 'laser');
             laser.body.velocity.y = -300;
