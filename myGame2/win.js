@@ -26,4 +26,4 @@ game_state.win.prototype = {
 };
 
 game.state.add('win', game_state.win);
-game.state.start('win');
+// game.state.start('win');
