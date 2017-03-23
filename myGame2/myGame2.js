@@ -184,7 +184,7 @@ game_state.main.prototype = {
             speed += 3;
         }
         
-        if (level == 2)
+        if (level == 6)
         {
             game.state.start('boss');
         }
