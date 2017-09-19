@@ -171,7 +171,7 @@ game_state.main.prototype = {
             this.health1.kill();
             game.state.start('lose');
         }
-        if (asteroidScore > 4) {
+        if (asteroidScore > ) {
             asteroidScore = 0;
             var star = _this.stars.create(Math.random() * 1100, -64, 'star');
             star.body.gravity.y = 50;
